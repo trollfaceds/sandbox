@@ -19,13 +19,17 @@ setmetatable(Services, {
 	end,
 	__mode = "v"
 })
+local LoadURL = function(url)
+	return loadstring(game:HttpGet(url))()
+end
 local sandbox = function(url)
-	return loadstring(game:HttpGet("https://raw.githubusercontent.com/trollfaceds/sandbox/main/main.lua"))()(url)
+	return LoadURL("https://raw.githubusercontent.com/trollfaceds/sandbox/main/main.lua")(url)
 end
 local gsub = string.gsub
 local transfer = {
 	Services = Services,
 	sandbox = sandbox,
+	LoadURL = LoadURL,
 	sethiddenproperty = sethiddenproperty or set_hidden_property or set_hidden_prop,
 	gethiddenproperty = gethiddenproperty or get_hidden_property or get_hidden_prop,
 	setsimulationradius = setsimulationradius or set_simulation_radius,
