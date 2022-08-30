@@ -22,13 +22,9 @@ setmetatable(Services, {
 local LoadURL = function(url)
 	return loadstring(game:HttpGet(url))()
 end
-local sandbox = function(url)
-	return LoadURL("https://raw.githubusercontent.com/trollfaceds/sandbox/main/main.lua")(url)
-end
 local gsub = string.gsub
 local transfer = {
 	Services = Services,
-	sandbox = sandbox,
 	LoadURL = LoadURL,
 	sethiddenproperty = sethiddenproperty or set_hidden_property or set_hidden_prop,
 	gethiddenproperty = gethiddenproperty or get_hidden_property or get_hidden_prop,
@@ -72,8 +68,10 @@ local transfer = {
 	wait = task.wait,
 	spawn = task.spawn
 }
-return function(url)
+local sandbox = function(url)
 	local module = assert(loadstring(game:HttpGet(url)))
 	setfenv(module, setmetatable(transfer, {__index = getfenv(1)}))
 	return module() or {}
 end
+transfer.sandbox = sandbox
+return sandbox
