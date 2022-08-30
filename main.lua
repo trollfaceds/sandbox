@@ -68,10 +68,9 @@ local transfer = {
 	wait = task.wait,
 	spawn = task.spawn
 }
-local sandbox = function(url)
+transfer.sandbox = function(url)
 	local module = assert(loadstring(game:HttpGet(url)))
 	setfenv(module, setmetatable(transfer, {__index = getfenv(1)}))
 	return module() or {}
 end
-transfer.sandbox = sandbox
-return sandbox
+return transfer.sandbox
